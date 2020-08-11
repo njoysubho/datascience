@@ -1,0 +1,31 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+DataLoader	exp/nb_03.py	/^class DataLoader():$/;"	c
+Dataset	exp/nb_03.py	/^class Dataset():$/;"	c
+MNIST_URL	exp/nb_01.py	/^MNIST_URL='http:\/\/deeplearning.net\/data\/mnist\/mnist.pkl'/;"	v
+__getitem__	exp/nb_03.py	/^    def __getitem__(self,i):$/;"	m	class:Dataset	file:
+__init__	exp/nb_03.py	/^    def __init__(self, ds, bs): self.ds,self.bs = ds,bs$/;"	m	class:DataLoader
+__init__	exp/nb_03.py	/^    def __init__(self,x,y):$/;"	m	class:Dataset
+__iter__	exp/nb_03.py	/^    def __iter__(self):$/;"	m	class:DataLoader	file:
+__len__	exp/nb_03.py	/^    def __len__(self): return len(self.x)$/;"	m	class:Dataset	file:
+accuracy	exp/nb_03.py	/^def accuracy(out, yb): return (torch.argmax(out, dim=1)==yb).float().mean()$/;"	f
+getSortedFiles	notebook2script.py	/^def getSortedFiles(allFiles, upTo=None):$/;"	f
+get_data	exp/nb_03.py	/^def get_data():$/;"	f
+get_dls	exp/nb_03.py	/^def get_dls(train_ds,valid_ds,bs,**kwargs):$/;"	f
+get_model	exp/nb_03.py	/^def get_model():$/;"	f
+is_export	notebook2script.py	/^def is_export(cell):$/;"	f
+module	notebook2script.py	/^    module = re.sub(r' +$', '', module, flags=re.MULTILINE)$/;"	v
+near	exp/nb_02.py	/^def near(a,b): return torch.allclose(a, b, rtol=1e-3, atol=1e-5)$/;"	f
+near	exp/nb_03.py	/^def near(a,b): return torch.allclose(a, b, rtol=1e-3, atol=1e-5)$/;"	f
+normalize	exp/nb_03.py	/^def normalize(x,m,s):return (x-m)\/s$/;"	f
+notebook2script	notebook2script.py	/^def notebook2script(fname=None, allFiles=None, upTo=None):$/;"	f
+notebook2scriptSingle	notebook2script.py	/^def notebook2scriptSingle(fname):$/;"	f
+output_path	notebook2script.py	/^    output_path = fname.parent\/'exp'\/fname_out$/;"	v
+test	exp/nb_02.py	/^def test(a,b,cmp,cname=None):$/;"	f
+test_eq	exp/nb_02.py	/^def test_eq(a,b): test(a,b,operator.eq,'==')$/;"	f
+test_near	exp/nb_02.py	/^def test_near(a,b): test(a,b,near)$/;"	f
+test_near	exp/nb_03.py	/^def test_near(a,b): test(a,b,near)$/;"	f
