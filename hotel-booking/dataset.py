@@ -1,51 +1,26 @@
 import numpy as np
 import pandas as pd
-from sklearn import svm
+from sklearn import tree
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import Normalizer
+from sklearn.model_selection import KFold
+from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import SGDClassifier
 
 PATH = 'data/hotel_bookings.csv'
-
-
-class DataSet:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.c = x.columns
-
-    def __getitem__(self, item):
-        return self.x[item], self.y[item]
-
-    def __len__(self):
-        return len(self.x)
-
-    def show(self, size):
-        return self.x.head(size)
 
 
 def get_data(path):
     return pd.read_csv(path)
 
 
-def from_df(df, split, target):
-    train_test_cutoff = int(len(df) * split)
-    train_df = hotel_df[0:train_test_cutoff]
-    y_train = train_df[target]
-    x_train = train_df.drop(columns=[target])
-
-    test_df = hotel_df[train_test_cutoff:]
-    y_test = test_df[target]
-    x_test = test_df.drop(columns=[target])
-    return DataSet(x_train, y_train), DataSet(x_test, y_test)
-
-
 hotel_df = get_data(PATH)
-
-train_ds, test_ds = from_df(hotel_df, 0.8, 'is_canceled')
-
-print(train_ds.y)
+y = hotel_df['is_canceled']
+x = hotel_df.drop(columns=['is_canceled'])
 
 num_features = ["lead_time", "arrival_date_week_number", "arrival_date_day_of_month",
                 "stays_in_weekend_nights", "stays_in_week_nights", "adults", "children",
@@ -67,12 +42,21 @@ preprocessors = ColumnTransformer(transformers=[
     ("categorical", cat_transformer, cat_features)
 ])
 
-model = svm.SVC()
+normalizer = Normalizer()
 
-pipeline = Pipeline(steps=[
-    ('preprocessors', preprocessors),
-    ('model', model)
-])
+all_models = [('DecisionTree', tree.DecisionTreeClassifier(random_state=42)),
+              ('LogisticRegression', LogisticRegression(random_state=42, max_iter=120)),
+              ('SGDClassifier', SGDClassifier(random_state=42))]
 
-learner = pipeline.fit(train_ds.x, train_ds.y)
-print(learner.score())
+y = hotel_df['is_canceled']
+x = hotel_df.drop(columns=['is_canceled'])
+
+split = KFold(n_splits=4, shuffle=True, random_state=42)
+for name, model in all_models:
+    pipeline = Pipeline(steps=[
+        ('preprocessors', preprocessors),
+        ('normalize', Normalizer()),
+        ('model', model)
+    ])
+    score = cross_val_score(pipeline, x, y, cv=split, verbose=1, scoring='accuracy')
+    print(f'Model={name} details=[mean_score={np.mean(score)},min_score={np.min(score)},max_score={np.max(score)}]')
